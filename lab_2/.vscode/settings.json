@@ -1,0 +1,23 @@
+{
+    "cmake.sourceDirectory": "/home/sadzumo/Desktop/project_1/source_files",
+    "files.associations": {
+        "algorithm": "cpp",
+        "array": "cpp",
+        "*.tcc": "cpp",
+        "deque": "cpp",
+        "functional": "cpp",
+        "iterator": "cpp",
+        "memory": "cpp",
+        "memory_resource": "cpp",
+        "numeric": "cpp",
+        "random": "cpp",
+        "string": "cpp",
+        "string_view": "cpp",
+        "system_error": "cpp",
+        "tuple": "cpp",
+        "type_traits": "cpp",
+        "unordered_map": "cpp",
+        "utility": "cpp",
+        "vector": "cpp"
+    }
+}
