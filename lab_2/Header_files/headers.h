@@ -23,7 +23,8 @@ class Matrix {
     Matrix operator ++();
     Matrix operator ++(int);
     operator int() const;
-    friend istream& operator >>(istream &is_bin, Matrix &);
+    friend ifstream& operator >>(ifstream &is, Matrix &matrix);
+    friend ofstream& operator <<(ofstream &os, Matrix &matrix);
 
     ~Matrix();
 
@@ -34,5 +35,5 @@ class Matrix {
 };
 
 Matrix operator -(Matrix matrix_1, Matrix matrix_2);
-ostream& operator <<(ostream &os, Matrix &matrix);
-istream& operator >>(istream &is_bin, Matrix &);
+ofstream& operator <<(ofstream &os, Matrix &matrix);
+ifstream& operator >>(ifstream &is, Matrix &matrix);

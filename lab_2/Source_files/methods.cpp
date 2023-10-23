@@ -158,27 +158,26 @@ Matrix::~Matrix() {
     MatrixOrder = 0;
 }
 
-ostream& operator <<(ostream &os_bin, Matrix &matrix) {
-    os_bin << matrix.getMatrixOrder() << " ";
-    int **tmp = matrix.getlines();
-    for (size_t i = 0; i < matrix.getMatrixOrder(); i++) {
-        for (size_t j = 0; j < matrix.getMatrixOrder(); j++) {
-            os_bin << tmp[i][j] << " ";
+ofstream& operator <<(ofstream &os, Matrix &matrix) {
+    os.write((char *)&matrix.MatrixOrder, sizeof(size_t));
+    for (size_t i = 0; i < matrix.MatrixOrder; i++) {
+        for (size_t j = 0; j < matrix.MatrixOrder; j++) {
+            os.write((char *)&matrix.lines[i][j], sizeof(int));
         }
     }
 
-    return os_bin;
+    return os;
 }
 
-istream& operator >>(istream &is_bin, Matrix &matrix) {
-    is_bin >> matrix.MatrixOrder;
-    matrix.lines = new int *[matrix.MatrixOrder];
-    for (size_t i = 0; i < matrix.MatrixOrder; i++) {
-        matrix.lines[i] = new int[matrix.MatrixOrder];
-        for (size_t j = 0; j < matrix.MatrixOrder; j++) {
-            is_bin >> matrix.lines[i][j];
+ifstream& operator >>(ifstream &is, Matrix &matrix) {
+    size_t mtrord;
+    is.read((char *)&mtrord, sizeof(size_t));
+    matrix.MatrixOrder = mtrord;
+    for (size_t i = 0; i < mtrord; i++) {
+        for (size_t j = 0; j < mtrord; j++) {
+            is.read((char *)&matrix.lines[i][j], sizeof(int));
         }
     }
 
-    return is_bin;
+    return is;
 }
