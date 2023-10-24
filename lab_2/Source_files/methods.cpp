@@ -171,13 +171,30 @@ ofstream& operator <<(ofstream &os, Matrix &matrix) {
 
 ifstream& operator >>(ifstream &is, Matrix &matrix) {
     size_t mtrord;
+    for (size_t i = 0; i < matrix.MatrixOrder; i++) {
+        delete matrix.lines[i];
+    }
+    delete matrix.lines;
     is.read((char *)&mtrord, sizeof(size_t));
+    matrix.lines = new int *[mtrord];
     matrix.MatrixOrder = mtrord;
     for (size_t i = 0; i < mtrord; i++) {
+        matrix.lines[i] = new int[mtrord];
         for (size_t j = 0; j < mtrord; j++) {
             is.read((char *)&matrix.lines[i][j], sizeof(int));
         }
     }
 
     return is;
+}
+
+fstream& operator << (fstream &in, Matrix &matrix) {
+    in << matrix.MatrixOrder << ' ';
+    for (size_t i = 0; i < matrix.MatrixOrder; i++) {
+        for (size_t j = 0; j < matrix.MatrixOrder; j++) {
+            in << matrix.lines[i][j] << ' ';
+        }
+    }
+
+    return in;
 }

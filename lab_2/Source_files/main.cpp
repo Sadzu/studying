@@ -46,17 +46,29 @@ int main() {
     int a = m_1;
     cout << a << '\n';
 
-    ofstream fout("Resource_files/text.txt");
-    fout << m_1;
-    fout.close();
+    fstream fout("Resource_files/text.txt", ios::out);
+    if (!fout) {
+        cout << "Failed to open file\n";
+    } else {
+        fout << m_1;
+        fout.close();
+    }
 
     ofstream fout_bin("Resource_files/test.bin", ios::binary | ios::out);
-    fout_bin << m_1;
-    fout_bin.close();
+    if (!fout_bin) {
+        cout << "Failed to open file\n";
+    } else {
+        fout_bin << m_1;
+        fout_bin.close();
+    }
 
     ifstream fin_bin("Resource_files/test.bin", ios::binary | ios::in);
-    fin_bin >> m_3;
-    fin_bin.close();
+    if (!fin_bin) {
+        cout << "Failed to open file\n";
+    } else {
+        fin_bin >> m_3;
+        fin_bin.close();
+    }
     m_3.print();
    
     return 0;
