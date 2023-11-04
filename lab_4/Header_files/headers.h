@@ -40,12 +40,27 @@ class Matrix_with_name: public Matrix {
    char *Name;
  public:
    Matrix_with_name(int order, int **matrix, char *name);
-   Matrix_with_name(const Matrix_with_name &, char *name);
+   Matrix_with_name(const Matrix_with_name &);
    Matrix_with_name();
 
    void print();
+   Matrix_with_name operator +(Matrix_with_name matrix);
+   void ChangeName(char *new_name);
 
    ~Matrix_with_name();
+};
+
+class Matrix_with_int : public Matrix {
+ private:
+   int MatrixNumber;
+ public:
+   Matrix_with_int(int order, int **matrix, int number);
+   Matrix_with_int(const Matrix_with_int &);
+   Matrix_with_int();
+
+   void print();
+
+   ~Matrix_with_int();
 };
 
 Matrix operator -(Matrix matrix_1, Matrix matrix_2);

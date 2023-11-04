@@ -208,11 +208,11 @@ Matrix_with_name::Matrix_with_name(int order, int **matrix, char *name) : Matrix
     Name[i+1] = '\0';
 }
 
-Matrix_with_name::Matrix_with_name(const Matrix_with_name &matrix, char *name) :  Matrix::Matrix(matrix) {
-    Name = new char[strlen(name)+1];
+Matrix_with_name::Matrix_with_name(const Matrix_with_name &matrix) :  Matrix::Matrix(matrix) {
+    Name = new char[strlen(matrix.Name)+1];
     size_t i;
-    for (i = 0; name[i] != '\0'; i++) {
-        Name[i] = name[i];
+    for (i = 0; matrix.Name[i] != '\0'; i++) {
+        Name[i] = matrix.Name[i];
     }
     Name[i+1] = 0;
 }
@@ -228,4 +228,52 @@ Matrix_with_name::~Matrix_with_name() {
 void Matrix_with_name::print() {
     cout << Name;
     Matrix::print();
+}
+
+Matrix_with_int::Matrix_with_int(int order, int **matrix, int number) : Matrix::Matrix(order, matrix) {
+    MatrixNumber = number;
+}
+
+Matrix_with_int::Matrix_with_int(const Matrix_with_int &matrix) : Matrix::Matrix(matrix) {
+    MatrixNumber = matrix.MatrixNumber;
+}
+
+Matrix_with_int::Matrix_with_int() {
+    MatrixNumber = 0;
+}
+
+void Matrix_with_int::print() {
+    cout << MatrixNumber;
+    Matrix::print();
+}
+
+Matrix_with_int::~Matrix_with_int() {
+    MatrixNumber = 0;
+}
+
+Matrix_with_name Matrix_with_name::operator +(Matrix_with_name matrix){
+    if (getMatrixOrder() != matrix.getMatrixOrder()) {
+        return *this;
+    }
+
+    Matrix_with_name tmp = *this;
+    int **lines_this = tmp.getlines(), **lines_matrix = matrix.getlines();
+    for (size_t i = 0; i < getMatrixOrder(); i++) {
+        for (size_t j = 0; j < getMatrixOrder(); j++) {
+            lines_this[i][j] += lines_matrix[i][j];
+        }
+    }
+
+    return tmp;
+}
+
+void Matrix_with_name::ChangeName(char *new_name) {
+    delete Name;
+    size_t len = strlen(new_name), i = 0;
+    Name = new char[len+1];
+    
+    for (i = 0; new_name[i] != '\0'; i++) {
+        Name[i] = new_name[i];
+    }
+    Name[i+1] = '\0';
 }
