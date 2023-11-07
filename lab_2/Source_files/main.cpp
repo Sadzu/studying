@@ -46,7 +46,7 @@ int main() {
     int a = m_1;
     cout << a << '\n';
 
-    fstream fout("Resource_files/text.txt", ios::out);
+    ofstream fout("Resource_files/text.txt", ios::out);
     if (!fout) {
         cout << "Failed to open file\n";
     } else {

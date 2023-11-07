@@ -12,25 +12,14 @@ int main() {
             cin >> lns[i][j];
         }
     }
-    char *nm = new char[200];
     cout << "Enter matrix name: ";
-    cin >> nm;
+    char *name = new char[200];
+    cin >> name;
+    Matrix_with_name m_name(ord, lns, name);
 
-    Matrix_with_name matrix = Matrix_with_name(ord, lns, nm);
+    Matrix *m_2 = &m_name;
+    
+    m_2->print();
 
-    matrix.print();
-
-    Matrix_with_name m_1 = matrix;
-
-    Matrix_with_name sum = m_1 + m_1;
-
-    sum.print();
-
-    cout << "Enter new name: ";\
-    char *new_name = new char[200];
-    cin >> new_name;
-    sum.ChangeName(new_name);
-    sum.print();
-   
     return 0;
 }

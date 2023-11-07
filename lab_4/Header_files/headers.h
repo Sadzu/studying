@@ -46,6 +46,7 @@ class Matrix_with_name: public Matrix {
    void print();
    Matrix_with_name operator +(Matrix_with_name matrix);
    void ChangeName(char *new_name);
+   //void operator =(Matrix_with_name &matrix);
 
    ~Matrix_with_name();
 };

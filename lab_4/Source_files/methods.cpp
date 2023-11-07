@@ -238,12 +238,12 @@ Matrix_with_int::Matrix_with_int(const Matrix_with_int &matrix) : Matrix::Matrix
     MatrixNumber = matrix.MatrixNumber;
 }
 
-Matrix_with_int::Matrix_with_int() {
+Matrix_with_int::Matrix_with_int() : Matrix::Matrix() {
     MatrixNumber = 0;
 }
 
 void Matrix_with_int::print() {
-    cout << MatrixNumber;
+    cout << "#" << MatrixNumber;
     Matrix::print();
 }
 
@@ -277,3 +277,4 @@ void Matrix_with_name::ChangeName(char *new_name) {
     }
     Name[i+1] = '\0';
 }
+
