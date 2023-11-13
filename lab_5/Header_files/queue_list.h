@@ -1,5 +1,7 @@
 #include "headers.h"
 
+#pragma once
+
 struct Node {
     Node *next;
     Node *prev;
@@ -16,9 +18,12 @@ class queue_list {
 
     void Delete();
     void Add(Matrix &matrix);
-    void Delete_by_number(int number);
-    void Add_by_number(int number);
+    //void Delete_by_number(int number);
+    //void Add_by_number(int number);
     void print();
+    unsigned search(Matrix &matrix);
+    Matrix* get_by_number(unsigned num);
+    unsigned GetSize();
 
     ~queue_list();
 };

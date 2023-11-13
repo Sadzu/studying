@@ -13,14 +13,25 @@ int main() {
             cin >> lns[i][j];
         }
     }
-    cout << "Enter matrix name: ";
-    char *name = new char[200];
-    cin >> name;
-    Matrix_with_name m_name(ord, lns, name);
+    Matrix m_parent = Matrix(ord, lns);
 
-    Matrix *m_2 = &m_name;
-    
-    m_2->print();
+    char *mat_name = new char[200];
+    cout << "Enter name: ";
+    cin >> mat_name;
+
+    int number;
+    cout << "Enter number: ";
+    cin >> number;
+
+    Matrix_with_name m_name = Matrix_with_name(ord, lns, mat_name);
+    Matrix_with_int m_int = Matrix_with_int(ord, lns, number);
+
+    queue_list qu;
+    qu.Add(m_parent);
+    qu.Add(m_name);
+    qu.Add(m_int);
+
+    qu.print();
 
     return 0;
 }

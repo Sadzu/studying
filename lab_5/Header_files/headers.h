@@ -3,6 +3,9 @@
 #include <time.h>
 #include <cstring>
 #include <fstream>
+
+#pragma once
+
 using namespace std;
 
 class Matrix {
