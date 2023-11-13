@@ -15,7 +15,7 @@ queue_list::~queue_list() {
         }
         tmp = tmp->next;
     }
-    delete tmp;
+    delete last;
 }
 
 void queue_list::Add(Matrix &matrix) {
