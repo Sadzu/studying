@@ -22,7 +22,6 @@ class queue_list {
     //void Add_by_number(int number);
     void print();
     unsigned search(Matrix &matrix);
-    Matrix* get_by_number(unsigned num);
     unsigned GetSize();
 
     ~queue_list();

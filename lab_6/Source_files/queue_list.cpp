@@ -15,7 +15,7 @@ queue_list::~queue_list() {
         }
         tmp = tmp->next;
     }
-    delete last;
+    delete head;
 }
 
 void queue_list::Add(Matrix &matrix) {
@@ -43,8 +43,12 @@ void queue_list::Add(Matrix &matrix) {
 // }
 
 void queue_list::Delete() {
-    last = last->prev;
-    delete last->next;
+    if (head == nullptr) {
+        throw "Queue is already clear";
+    }
+    head = head->next;
+    delete head->prev;
+    head->prev = last;
     last->next = head;
 }
 
@@ -54,7 +58,6 @@ void queue_list::print() {
     }
     Node *tmp = head;
     while (1) {
-        cout << "Node #" << tmp->number << '\n';
         tmp->data->print();
 
         tmp = tmp->next;
@@ -85,18 +88,4 @@ unsigned queue_list::search(Matrix &matrix) {
 
 unsigned queue_list::GetSize() {
     return last->number;
-}
-
-Matrix* queue_list::get_by_number(unsigned num) {
-    if (num > last->number) {
-        return nullptr;
-    }
-
-    Node *tmp = head;
-    
-    while (tmp->number != num) {
-        tmp = tmp->next;
-    }
-
-    return tmp->data;
 }

@@ -33,9 +33,22 @@ int main() {
     Matrix_with_name m_name = Matrix_with_name(ord, lns, matrix_name);
     Matrix_with_int m_int = Matrix_with_int(ord, lns, matrix_number);
 
+    try {
+        ql.Delete();
+    } catch (const char *error_message) {
+        cout << error_message << endl;
+    }
+
     ql.Add(m_parent);
     ql.Add(m_name);
     ql.Add(m_int);
+
+    try {
+        ql.Delete();
+    } catch (const char *error_message) {
+        cout << error_message << endl;
+    }
+    ql.print();
 
     try {
         ql.print();
@@ -47,22 +60,19 @@ int main() {
     try {
         m_parent.change_value(3, 3, -5);
         m_parent.print();
-    }
-    catch (const char *error_message) {
+    } catch (const char *error_message) {
         cout << error_message << endl;
     }
     try {
         m_name.change_value(1, 3, -5);
         m_name.print();
-    }
-    catch (const char *error_message) {
+    } catch (const char *error_message) {
         cout << error_message << endl;
     }
     try {
         m_parent.change_value(1, 1, -5);
         m_parent.print();
-    }
-    catch (const char *error_message) {
+    } catch (const char *error_message) {
         cout << error_message << endl;
     }
 
