@@ -2,52 +2,45 @@
 #include "../Headers/list.h"
 #include <fstream>
 
-//template List<char>;
-
 template <typename T>
-void List<T>::ChangeList(int _size)
-{
+void List<T>::ChangeList(int _size) {
 	size = _size;
 	list = new Item<T>*[size] { NULL };
 }
 
 template <typename T>
-List<T>::List(int _size)
-{
+List<T>::List(int _size) {
+	if (_size == 0) {
+		return;
+	}
 	ChangeList(_size);
 }
 
 template <typename T>
-List<T>::~List()
-{
-	for (int i = 0; i < count; i++)
-	{
+List<T>::~List() {
+	for (int i = 0; i < count; i++) {
 		delete list[i];
 	}
 	count = 0;
 }
 
 template <typename T>
-int List<T>::GetSize()
-{
+int List<T>::GetSize() {
 	return size;
 }
 
 template <typename T>
-int List<T>::GetCount()
-{
+int List<T>::GetCount() {
 	return count;
 }
 
 template <typename T>
-void List<T>::SetItem(T* value, int index)
-{
+void List<T>::SetItem(T* value, int index) {
 	list[index]->SetValue(value);
 }
 
 template <typename T>
-bool List<T>::Insert(T* value)
-{
+bool List<T>::Insert(T* value) {
 	if (size != count) {
 		Item<T>* item = new Item<T>(value);
 		list[count] = item; 
@@ -59,24 +52,20 @@ bool List<T>::Insert(T* value)
 }
 
 template <typename T>
-T* List<T>::Insert(T* value, int index) 
-{
+T* List<T>::Insert(T* value, int index) {
 	Item<T>* item = new Item<T>(value); 
 	T* oldItem = NULL; 
 
-	if (size == count) 
-	{
+	if (size == count) {
 		oldItem = list[count - 1]->GetValue();
 	}
 
-	for (int i = count; i > index; i--) 
-	{
+	for (int i = count; i > index; i--) {
 		list[i] = list[i - 1];
 	}
 	list[index] = item;
 
-	if (oldItem == NULL) 
-	{
+	if (oldItem == NULL) {
 		count++;
 	}
 
@@ -84,11 +73,9 @@ T* List<T>::Insert(T* value, int index)
 }
 
 template <typename T>
-void List<T>::DeleteTo(int index) 
-{
+void List<T>::DeleteTo(int index) {
 	delete list[index]; 
-	for (int i = index; i < count - 1; i++) 
-	{
+	for (int i = index; i < count - 1; i++) {
 		list[i] = list[i + 1];
 	}
 	list[count - 1] = NULL; 
@@ -96,37 +83,31 @@ void List<T>::DeleteTo(int index)
 }
 
 template <typename T>
-T* List<T>::GetValue(int index) 
-{
+T* List<T>::GetValue(int index) {
 	return list[index]->GetValue();
 }
 
 template <typename T>
-Item<T>* List<T>::GetItem(int index) 
-{
+Item<T>* List<T>::GetItem(int index) {
 	return list[index]; 
 }
 
 template <typename T>
-void List<T>::WriteBinaryFile(std::ofstream& fout) 
-{
+void List<T>::WriteBinaryFile(std::ofstream& fout) {
 	fout.write((char*)&size, sizeof(int)); 
 	fout.write((char*)&count, sizeof(int)); 
-	for (int i = 0; i < count; ++i) 
-	{
+	for (int i = 0; i < count; ++i) {
 		list[i]->WriteBinaryFile(fout);
 	}
 }
 
 template <typename T>
-void List<T>::ReadBinaryFile(std::ifstream& fin)
-{
+void List<T>::ReadBinaryFile(std::ifstream& fin) {
 	fin.read((char*)&size, sizeof(int));
 	ChangeList(size);
 
 	fin.read((char*)&count, sizeof(int)); 
-	for (int i = 0; i < count; ++i) 
-	{
+	for (int i = 0; i < count; ++i) {
 		Item<T>* item = new Item<T>();
 		item->ReadBinaryFile(fin);
 		list[i] = item; 
@@ -134,11 +115,9 @@ void List<T>::ReadBinaryFile(std::ifstream& fin)
 }
 
 template <typename T>
-void List<T>::Print() 
-{
-	std::cout << "� ������������ �������� " << size << std::endl;
-	for (int i = 0; i < count; ++i) 
-	{
+void List<T>::Print() {
+	std::cout << "With max size " << size << std::endl;
+	for (int i = 0; i < count; ++i) {
 		list[i]->Print();
 		if (i + 1 != count)
 			std::cout << ", ";

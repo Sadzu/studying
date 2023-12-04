@@ -85,10 +85,9 @@ void Menu() {
     int point; //Переменная выбранного пункта
     int minPoint = 1, maxPoint = 12; //Минимальный номер пункта и максимальный номер пункта
     int minSizeList = 1, maxSizeList = 1000; //Минимальная длина списка и максимальная длина списка
-    char nameFile[] = "List.bin"; //Название бинарного файла
+    char nameFile[] = "../Resources/List.bin"; //Название бинарного файла
 
     while (true) {
-        system("cls");
         PrintHeader(); //Выводим пункты
         std::cout << "Выберите пункт";
         point = SelectNumber(minPoint, maxPoint); //Вводим пункт
@@ -96,12 +95,10 @@ void Menu() {
         if (point == maxPoint) //Если выбран пункт, который завершает меню, то выходим из бесконечного цикла
             break;
 
-        system("cls");
-
         switch (point) {
             case 1: //Создание нового списка
             {
-                std::cout << "Введите размер создаваемо списка";
+                std::cout << "Введите размер создаваемого списка";
                 int sizeList = SelectNumber(minSizeList, maxSizeList);
                 arr->CreateList(sizeList);
                 break;
@@ -116,7 +113,6 @@ void Menu() {
                 else
                 {
                     std::cout << "В массиве нет свободных списков\n";
-                    system("pause");
                 }
                 break;
             }
@@ -137,13 +133,11 @@ void Menu() {
                     else
                     {
                         std::cout << "Список переполнен\n";
-                        system("pause");
                     }
                 }
                 else
                 {
                     std::cout << "В массиве нет свободных списков\n";
-                    system("pause");
                 }
                 break;
             }
@@ -157,7 +151,6 @@ void Menu() {
                 else
                 {
                     std::cout << "В массиве нет свободных списков\n";
-                    system("pause");
                 }
                 break;
             }
@@ -175,7 +168,6 @@ void Menu() {
                 else
                 {
                     std::cout << "В массиве нет списков\n";
-                    system("pause");
                 }
                 break;
             }
@@ -190,14 +182,12 @@ void Menu() {
                 else
                 {
                     std::cout << "В массиве нет списков\n";
-                    system("pause");
                 }
                 break;
             }
             case 7: //Вывод массива
             {
                 arr->Print();
-                system("pause");
                 break;
             }
             case 8: //Сортировка массива
@@ -206,7 +196,6 @@ void Menu() {
                 arr->Sort();
                 clock_t end_time = clock();
                 std::cout << "Массив отсортирован за " << (double)(end_time - start_time) / CLOCKS_PER_SEC << "с\n";
-                system("pause");
                 break;
             }
             case 9: //Запись в бинарный файл массив
@@ -215,7 +204,6 @@ void Menu() {
                 arr->WriteBinFile(nameFile);
                 clock_t end_time = clock();
                 std::cout << "Массив записан в файл за " << (double)(end_time - start_time) / CLOCKS_PER_SEC << "с\n";
-                system("pause");
                 break;
             }
             case 10: //Чтение из бинарного файла
@@ -224,7 +212,6 @@ void Menu() {
                 arr->ReadBinFile(nameFile);
                 clock_t end_time = clock();
                 std::cout << "Массив считан из файла за " << (double)(end_time - start_time) / CLOCKS_PER_SEC << "с\n";
-                system("pause");
                 break;
             }
             case 11: //Заполнение массива случайными строками
@@ -235,7 +222,6 @@ void Menu() {
                 FillArray(arr, maxSizeList, count);
                 clock_t end_time = clock();
                 std::cout << "Массив заполнился за " << (double)(end_time - start_time) / CLOCKS_PER_SEC << "с\n";
-                system("pause");
                 break;
             }
             default:

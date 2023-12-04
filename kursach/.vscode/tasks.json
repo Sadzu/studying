@@ -6,7 +6,7 @@
             "command": "make",
             "args": [],
             "options": {
-                "cwd": "${workspaceRoot}"
+                "cwd": "${workspaceRoot}/Source"
             },
             "problemMatcher": [
                 "$gcc"

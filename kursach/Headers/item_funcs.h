@@ -78,7 +78,7 @@ template <typename T>
 void Item<T>::WriteBinaryFile(std::ofstream& fout) {
     int length = strlen(value);
     fout.write((char*)&length, sizeof(int));
-    fout.write(value, length);
+    fout.write(value, length*sizeof(T));
 }
 
 template <typename T>

@@ -2,11 +2,8 @@
 
 #include <iostream>
 #include <ctime>
-#include "array.h"
 #include "array_funcs.h"
-#include "item.h"
 #include "item_funcs.h"
-#include "list.h"
 #include "list_funcs.h"
 
 void Menu();
