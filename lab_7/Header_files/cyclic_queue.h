@@ -15,7 +15,7 @@ class cyclic_queue {
    cyclic_queue(size_t Size);
 
     void deQueue();
-    void enQueue(T *item);
+    void enQueue(T item);
     bool isFull();
     bool isEmpty();
     size_t getSize();

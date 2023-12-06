@@ -49,9 +49,10 @@ bool cyclic_queue<T>::isEmpty() {
 }
 
 template <typename T>
-void cyclic_queue<T>::enQueue(T *item) {
+void cyclic_queue<T>::enQueue(T item) {
     if (isEmpty()) {
-        queue[0] = item;
+        queue[0] = new T;
+        *queue[0] = item;
         front = 0;
         rear = 0;
 
@@ -64,24 +65,25 @@ void cyclic_queue<T>::enQueue(T *item) {
     }
 
     rear = (rear + 1) % size;
-    queue[rear] = item;
+    queue[rear] = new T;
+    *queue[rear] = item;
 }
 
-template <typename T>
-void cyclic_queue<T>::deQueue() {
-    if (isEmpty()) {
-        cout << "Queue is already empty\n";
-        return;
-    }
+// template <typename T>
+// void cyclic_queue<T>::deQueue() {
+//     if (isEmpty()) {
+//         cout << "Queue is already empty\n";
+//         return;
+//     }
 
-    if (front == rear) {
-        front = -1;
-        rear = -1;
-        return;
-    }
+//     if (front == rear) {
+//         front = -1;
+//         rear = -1;
+//         return;
+//     }
 
-    front = (front + 1) % size;
-}
+//     front = (front + 1) % size;
+// }
 
 template <typename T>
 size_t cyclic_queue<T>::getSize() {
@@ -101,6 +103,6 @@ void cyclic_queue<T>::print() {
     }
 
     for (int i = front; i <= rear; i++) {
-        cout << queue[i] << endl;
+        cout << *queue[i] << endl;
     }
 }
