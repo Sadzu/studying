@@ -4,6 +4,7 @@
 
 using namespace std;
 
+//rEaLlOc fOr nEw
 template <typename T>
 T* array_memory_reallocate(T *array, size_t old_size, size_t new_size) {
     T *tmp = new T[new_size];
