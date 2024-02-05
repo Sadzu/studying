@@ -188,6 +188,13 @@ class Vec {
     void clear() {
         m_last_item_index = -1;
     }
+    //iterators
+    T* begin() {
+        return &m_data[0];
+    }
+    T* end() {
+        return &m_data[m_last_item_index];
+    }
 };
 
 template <typename T>
