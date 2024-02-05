@@ -42,7 +42,7 @@ class Vec {
         m_last_item_index = i;
     }
     Vec(Vec &object) {
-        Vec(object.max_size(), object.get_data());
+        this->operator=(object);
     }
     //maybe later
     // Vec(T arg, ...) {
@@ -161,7 +161,7 @@ class Vec {
             delete[] m_data;
         }
         m_size = object.max_size();
-        m_last_item_index = object.size();
+        m_last_item_index = object.size() - 1;
         m_data = object.get_data();
     }
     T operator [](size_t index) {
