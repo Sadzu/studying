@@ -3,9 +3,9 @@ package Generation;
 import java.awt.*;
 
 public abstract class House implements IBehaviour {
-    Image _image;
-    int _xCoordinate;
-    int _yCoordinate;
+    private Image _image;
+    private int _xCoordinate;
+    private int _yCoordinate;
 
     private String _name;
 

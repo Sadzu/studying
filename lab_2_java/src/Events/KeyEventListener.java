@@ -14,7 +14,7 @@ public class KeyEventListener implements KeyListener {
     JRadioButton _showTimeButton;
 
     public KeyEventListener(JButton startButton, JButton stopButton, JRadioButton showTimeButton, JRadioButton hideTimeButton) {
-        _habitat = Habitat.getInstance(0, 0, 0, 0);
+        _habitat = Habitat.getInstance();
         _startButton = startButton;
         _stopButton = stopButton;
         _showTimeButton = showTimeButton;

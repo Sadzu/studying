@@ -8,12 +8,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Statistics {
-    public void init(JFrame parentFrame) {
-        JDialog frame = new JDialog(parentFrame, "Statistics" ,true);
-        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    public static void init(JFrame parentFrame) {
+        JDialog frame = new JDialog(parentFrame, "Statistics", true);
         frame.setSize(500, 500);
+        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        Habitat habitat = Habitat.getInstance(0, 0, 0, 0);
+        Habitat habitat = Habitat.getInstance();
 
         JButton okButton = new JButton("OK");
         okButton.addActionListener(new ActionListener() {

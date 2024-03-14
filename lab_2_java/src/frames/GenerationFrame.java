@@ -15,8 +15,6 @@ public class GenerationFrame {
     private static final JRadioButton _showTimeButton = new JRadioButton("Show simulation time");
     private static final JRadioButton _hideTimeButton = new JRadioButton("Hide simulation time");
     public static void init(boolean showInfo, boolean errFlag) {
-        Statistics stats = new Statistics();
-
         JFrame frame = new JFrame("Generation");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -37,7 +35,7 @@ public class GenerationFrame {
             public void actionPerformed(ActionEvent e) {
                 _habitat.Pause();
                 if (showInfo) {
-                    stats.init(frame);
+                    Statistics.init(frame);
                 } else {
                     _stopMacros();
                 }
