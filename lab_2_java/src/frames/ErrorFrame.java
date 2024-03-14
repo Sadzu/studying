@@ -12,8 +12,9 @@ public class ErrorFrame {
         Container container = frame.getContentPane();
 
         TextArea errorMessage = new TextArea("", 1, 1, TextArea.SCROLLBARS_NONE);
-        errorMessage.append("Введены неверные данные, установлены значения по умолчанию");
+        errorMessage.append("Invalid data, setted default values");
         errorMessage.setEditable(false);
+        errorMessage.setFont(new Font("Arial", Font.PLAIN, 24));
 
         JButton okButton = new JButton("OK");
         okButton.addActionListener(new ActionListener() {

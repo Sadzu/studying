@@ -60,7 +60,7 @@ public class Menu extends JPanel {
 
                 frame.setVisible(false);
 
-                Gen_frame.init(showInfo_flag, errFlag[0]);
+                GenerationFrame.init(showInfo_flag, errFlag[0]);
             }
         });
 
