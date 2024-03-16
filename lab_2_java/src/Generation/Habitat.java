@@ -101,7 +101,9 @@ public class Habitat extends JPanel {
     public void Pause() {
         _timer.stop();
     }
-    public void Resume() { _timer.start(); }
+    public void Resume() {
+        _timer.start();
+    }
 
     public int getWoodenCount() {return _woodenCount;}
     public int getCapitalCount() {return _capitalCount;}

@@ -43,16 +43,16 @@ public class Menu extends JPanel {
                 int capitalTime = 0;
 
                 try {
-                    woodenTime = Integer.parseInt(woodenTField.getText());
-                    capitalTime = Integer.parseInt(capitalTField.getText());
+                    woodenTime = Math.abs(Integer.parseInt(woodenTField.getText()));
+                    capitalTime = Math.abs(Integer.parseInt(capitalTField.getText()));
                 } catch (NumberFormatException err) {
                     woodenTime = 3;
                     capitalTime = 2;
                     errFlag[0] = true;
                 }
 
-                double woodenChance = _choose((String) woodenChanceBox.getSelectedItem());
-                double capitalChance = _choose((String) capitalChanceBox.getSelectedItem());
+                double woodenChance = choose((String) woodenChanceBox.getSelectedItem());
+                double capitalChance = choose((String) capitalChanceBox.getSelectedItem());
 
                 Habitat habitat = Habitat.getInstance(woodenTime, woodenChance, capitalTime, capitalChance);
 
@@ -89,7 +89,7 @@ public class Menu extends JPanel {
         frame.setVisible(true);
     }
 
-    private static double _choose(String item) {
+    private static double choose(String item) {
 
         return switch (item) {
             case "10%" -> 0.1;

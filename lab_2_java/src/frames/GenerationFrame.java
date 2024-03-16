@@ -14,11 +14,12 @@ public class GenerationFrame {
     private static final JButton _stopButton = new JButton("Stop");
     private static final JRadioButton _showTimeButton = new JRadioButton("Show simulation time");
     private static final JRadioButton _hideTimeButton = new JRadioButton("Hide simulation time");
+    private static final JFrame _frame = new JFrame("Generation");
     public static void init(boolean showInfo, boolean errFlag) {
-        JFrame frame = new JFrame("Generation");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        _frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        _addMenu();
 
-        if (errFlag) {ErrorFrame.init(frame);}
+        if (errFlag) {ErrorFrame.init(_frame);}
 
         _stopButton.setEnabled(false);
 
@@ -35,7 +36,7 @@ public class GenerationFrame {
             public void actionPerformed(ActionEvent e) {
                 _habitat.Pause();
                 if (showInfo) {
-                    Statistics.init(frame);
+                    Statistics.init(_frame);
                 } else {
                     _stopMacros();
                 }
@@ -65,15 +66,19 @@ public class GenerationFrame {
         buttonPanel.add(_showTimeButton);
         buttonPanel.add(_hideTimeButton);
 
-        frame.addKeyListener(new KeyEventListener(_startButton, _stopButton, _showTimeButton, _hideTimeButton));
-        frame.setFocusable(true);
+        _frame.addKeyListener(new KeyEventListener(_startButton, _stopButton, _showTimeButton, _hideTimeButton));
+        _frame.setFocusable(true);
+        _frame.setAutoRequestFocus(true);
 
         _showTimeButton.doClick();
 
-        frame.getContentPane().add(_habitat, BorderLayout.CENTER);
-        frame.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
-        frame.setSize(1920, 1080);
-        frame.setVisible(true);
+        setUnfocusableAll();
+        buttonPanel.setFocusable(false);
+
+        _frame.getContentPane().add(_habitat, BorderLayout.CENTER);
+        _frame.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+        _frame.setSize(1920, 1080);
+        _frame.setVisible(true);
     }
 
     private static void _startMacros() {
@@ -85,5 +90,66 @@ public class GenerationFrame {
         _habitat.Pause();
         _startButton.setEnabled(true);
         _stopButton.setEnabled(false);
+    }
+
+    private static void _addMenu() {
+        JMenu mainMenu = new JMenu("Main");
+        JMenuItem start = new JMenuItem("Start");
+        JMenuItem stop = new JMenuItem("Stop");
+        JRadioButtonMenuItem hideSimTime = new JRadioButtonMenuItem("Hide simulation time");
+        JRadioButtonMenuItem showSimTime = new JRadioButtonMenuItem("Show simulation time");
+
+
+        start.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                _startButton.doClick();
+                stop.setEnabled(true);
+                start.setEnabled(false);
+            }
+        });
+
+        stop.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                _stopButton.doClick();
+            }
+        });
+
+        hideSimTime.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                _hideTimeButton.doClick();
+            }
+        });
+
+        showSimTime.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                _showTimeButton.doClick();
+            }
+        });
+
+        ButtonGroup bg = new ButtonGroup();
+        bg.add(hideSimTime);
+        bg.add(showSimTime);
+
+        showSimTime.setSelected(true);
+
+        mainMenu.add(start);
+        mainMenu.add(stop);
+        mainMenu.add(showSimTime);
+        mainMenu.add(hideSimTime);
+
+        JMenuBar menuPanel = new JMenuBar();
+        menuPanel.add(mainMenu);
+        _frame.getContentPane().add(menuPanel, BorderLayout.NORTH);
+    }
+
+    private static void setUnfocusableAll() {
+        _startButton.setFocusable(false);
+        _stopButton.setFocusable(false);
+        _hideTimeButton.setFocusable(false);
+        _showTimeButton.setFocusable(false);
     }
 }
