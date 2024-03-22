@@ -41,13 +41,13 @@ public class Statistics {
         statistics.setEditable(false);
 
         Container container = frame.getContentPane();
-        container.setLayout(new GridLayout(1, 1, 2, 2));
-        container.add(statistics);
+        //container.setLayout(new GridLayout(1, 1, 2, 2));
+        container.add(statistics, BorderLayout.EAST);
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(okButton);
         buttonPanel.add(cancelButton);
-        frame.add(buttonPanel);
+        container.add(buttonPanel, BorderLayout.WEST);
 
         container.setVisible(true);
         frame.setVisible(true);

@@ -42,6 +42,8 @@ public class GenerationFrame {
                 }
             }
         });
+        _stopButton.setForeground(Color.GREEN);
+        _stopButton.setBackground(Color.CYAN);
 
         _showTimeButton.addActionListener(new ActionListener() {
             @Override
