@@ -33,6 +33,12 @@ public class Menu extends JPanel {
         JLabel capitalChanceLabel = new JLabel("Выберите шанс генерации капитального дома");
         JComboBox<String> capitalChanceBox = new JComboBox<String>(boxItems);
 
+        JLabel woodenAliveTimeLabel = new JLabel("Введите время жизни деревянного дома");
+        JTextField woodenAliveTimeField = new JTextField("");
+
+        JLabel capitalAliveTimeLabel = new JLabel("Введите время жизни капитального дома");
+        JTextField capitalAliveTimeField = new JTextField("");
+
         JCheckBox showInfo = new JCheckBox("Show info", true);
 
         JButton startButton = new JButton("Start");
@@ -41,6 +47,8 @@ public class Menu extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 int woodenTime = 0;
                 int capitalTime = 0;
+                int woodenAliveTime = 0;
+                int capitalAliveTime = 0;
 
                 try {
                     woodenTime = Math.abs(Integer.parseInt(woodenTField.getText()));
@@ -54,7 +62,16 @@ public class Menu extends JPanel {
                 double woodenChance = choose((String) woodenChanceBox.getSelectedItem());
                 double capitalChance = choose((String) capitalChanceBox.getSelectedItem());
 
-                Habitat habitat = Habitat.getInstance(woodenTime, woodenChance, capitalTime, capitalChance);
+                try {
+                    woodenAliveTime = Math.abs(Integer.parseInt(woodenAliveTimeField.getText()));
+                    capitalAliveTime = Math.abs(Integer.parseInt(capitalAliveTimeField.getText()));
+                } catch (NumberFormatException err) {
+                    woodenAliveTime = 3;
+                    capitalAliveTime = 5;
+                    errFlag[0] = true;
+                }
+
+                Habitat habitat = Habitat.getInstance(woodenTime, woodenChance, capitalTime, capitalChance, woodenAliveTime, capitalAliveTime);
 
                 boolean showInfo_flag = showInfo.isSelected();
 
@@ -68,7 +85,7 @@ public class Menu extends JPanel {
         buttonPanel.add(startButton);
 
         Container container = frame.getContentPane();
-        container.setLayout(new GridLayout(3, 1, 2, 2));
+        container.setLayout(new GridLayout(4, 2, 10, 10));
 
         container.add(woodenTimeLabel);
         container.add(woodenTField);
@@ -79,6 +96,11 @@ public class Menu extends JPanel {
         container.add(woodenChanceBox);
         container.add(capitalChanceLabel);
         container.add(capitalChanceBox);
+
+        container.add(woodenAliveTimeLabel);
+        container.add(woodenAliveTimeField);
+        container.add(capitalAliveTimeLabel);
+        container.add(capitalAliveTimeField);
 
         container.add(showInfo);
 

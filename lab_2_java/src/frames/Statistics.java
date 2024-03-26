@@ -14,7 +14,7 @@ public class Statistics {
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 500);
 
-        Habitat habitat = Habitat.getInstance(0, 0, 0, 0);
+        Habitat habitat = Habitat.getInstance();
 
         JButton okButton = new JButton("OK");
         okButton.addActionListener(new ActionListener() {
@@ -41,13 +41,13 @@ public class Statistics {
         statistics.setEditable(false);
 
         Container container = frame.getContentPane();
-        //container.setLayout(new GridLayout(1, 1, 2, 2));
-        container.add(statistics, BorderLayout.EAST);
+        container.setLayout(new GridLayout(1, 1, 2, 2));
+        frame.add(statistics, BorderLayout.NORTH);
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(okButton);
         buttonPanel.add(cancelButton);
-        container.add(buttonPanel, BorderLayout.WEST);
+        container.add(buttonPanel, BorderLayout.SOUTH);
 
         container.setVisible(true);
         frame.setVisible(true);

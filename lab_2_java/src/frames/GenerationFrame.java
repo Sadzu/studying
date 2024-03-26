@@ -2,6 +2,8 @@ package frames;
 
 import Events.KeyEventListener;
 import Generation.Habitat;
+import Generation.House;
+import Generation.HouseCollections;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,6 +16,7 @@ public class GenerationFrame {
     private static final JButton _stopButton = new JButton("Stop");
     private static final JRadioButton _showTimeButton = new JRadioButton("Show simulation time");
     private static final JRadioButton _hideTimeButton = new JRadioButton("Hide simulation time");
+    private static final JButton _showAliveButton = new JButton("Show alive components");
     private static final JFrame _frame = new JFrame("Generation");
     public static void init(boolean showInfo, boolean errFlag) {
         _frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -58,6 +61,14 @@ public class GenerationFrame {
             }
         });
 
+        _showAliveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                _habitat.Pause();
+                AliveComponents.init(HouseCollections.getInstance().getBornTimeIds(), _frame);
+            }
+        });
+
         ButtonGroup simTimeGroup = new ButtonGroup();
         simTimeGroup.add(_showTimeButton);
         simTimeGroup.add(_hideTimeButton);
@@ -67,6 +78,7 @@ public class GenerationFrame {
         buttonPanel.add(_stopButton);
         buttonPanel.add(_showTimeButton);
         buttonPanel.add(_hideTimeButton);
+        buttonPanel.add(_showAliveButton);
 
         _frame.addKeyListener(new KeyEventListener(_startButton, _stopButton, _showTimeButton, _hideTimeButton));
         _frame.setFocusable(true);
@@ -153,5 +165,6 @@ public class GenerationFrame {
         _stopButton.setFocusable(false);
         _hideTimeButton.setFocusable(false);
         _showTimeButton.setFocusable(false);
+        _showAliveButton.setFocusable(false);
     }
 }
