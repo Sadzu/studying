@@ -155,9 +155,68 @@ public class GenerationFrame {
         mainMenu.add(showSimTime);
         mainMenu.add(hideSimTime);
 
+        JMenu threadMenu = getThreadMenu();
+
         JMenuBar menuPanel = new JMenuBar();
         menuPanel.add(mainMenu);
+        menuPanel.add(threadMenu);
         _frame.getContentPane().add(menuPanel, BorderLayout.NORTH);
+    }
+
+    private static JMenu getThreadMenu() {
+        JMenu threadMenu = new JMenu("Threads menu");
+        JMenuItem capitalAIChanger = new JMenuItem("Stop/Resume capital AI");
+        JMenuItem woodenAIChanger = new JMenuItem("Stop/Resume wooden AI");
+
+        capitalAIChanger.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                _habitat.changeCapitalAIStatus();
+            }
+        });
+        woodenAIChanger.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                _habitat.changeWoodenAIStatus();
+            }
+        });
+
+        threadMenu.add(capitalAIChanger);
+        threadMenu.add(woodenAIChanger);
+
+        JMenu threadPriority = getThreadPriority();
+        threadMenu.add(threadPriority);
+
+        return threadMenu;
+    }
+
+    private static JMenu getThreadPriority() {
+        JMenu threadPriority = new JMenu("Threads priority set");
+        JMenuItem capitalThreadPriority = new JMenuItem("Set priority to capital");
+        capitalThreadPriority.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                _habitat.setAIPriority(0);
+            }
+        });
+        JMenuItem woodenThreadPriority = new JMenuItem("Set priority to wooden");
+        woodenThreadPriority.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                _habitat.setAIPriority(1);
+            }
+        });
+        JMenuItem mainThreadPriority = new JMenuItem("Set priority to main");
+        mainThreadPriority.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                _habitat.setAIPriority(2);
+            }
+        });
+        threadPriority.add(mainThreadPriority);
+        threadPriority.add(capitalThreadPriority);
+        threadPriority.add(woodenThreadPriority);
+        return threadPriority;
     }
 
     private static void setUnfocusableAll() {

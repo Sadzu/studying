@@ -9,4 +9,14 @@ public class Capital extends House {
         set_xCoordinate(x);
         set_yCoordinate(y);
     }
+
+    @Override
+    public void move(boolean runStatus) {
+        int w = 1920;
+        int h = 1080;
+        if (get_xCoordinate() < w/2 && get_yCoordinate() < h/2) { return; }
+        if (!runStatus) { return; }
+        set_xCoordinate(get_xCoordinate() - BaseAI.getVelocity());
+        set_yCoordinate(get_yCoordinate() - BaseAI.getVelocity());
+    }
 }

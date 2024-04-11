@@ -2,7 +2,7 @@ package Generation;
 
 import java.awt.*;
 
-public abstract class House implements IBehaviour {
+public abstract class House implements IBehaviour, Comparable<House> {
     private Image _image;
     private int _xCoordinate;
     private int _yCoordinate;
@@ -23,4 +23,9 @@ public abstract class House implements IBehaviour {
     public void setName(String name) {_name = name;}
     public void setBornTime(int bornTime) {_bornTime = bornTime;}
     public void setId(int id) {_id = id;}
+
+    @Override
+    public int compareTo(House compare) {
+        return 0;
+    }
 }

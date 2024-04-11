@@ -4,13 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.TreeMap;
-import java.util.Vector;
-import java.util.Comparator;
-
-import static java.lang.System.in;
 
 public class Habitat extends JPanel {
     private static Habitat _instance;
@@ -30,6 +23,8 @@ public class Habitat extends JPanel {
     private final int _capitalAliveTime;
 
     private final HouseCollections _collections = HouseCollections.getInstance();
+    private WoodenAI _woodenAI = new WoodenAI(_collections.getHouses(), this);
+    private CapitalAI _capitalAI = new CapitalAI(_collections.getHouses(), this);
 
     public static Habitat getInstance(int woodenTime, double woodenChance, int capitalTime, double capitalChance, int woodenAliveTime, int capitalAliveTime) {
         if (_instance == null) {
@@ -69,6 +64,8 @@ public class Habitat extends JPanel {
                 }
 
                 _collections.checkAlive(_simulationTime);
+                _woodenAI.process();
+                _capitalAI.process();
 
                 repaint();
             }
@@ -129,11 +126,17 @@ public class Habitat extends JPanel {
     public void showSimulationTime() {_showTime = true;}
     public void hideSimulationTime() {_showTime = false;}
 
-    public void Start() {_timer.start();}
+    public void Start() {
+        _timer.start();
+        _woodenAI.start();
+        _capitalAI.start();
+    }
     public void Stop() {
         _timer.stop();
         _simulationTime = 0;
         _collections.clearCollections();
+        _woodenAI.interrupt();
+        _capitalAI.interrupt();
     }
     public void Pause() {
         _timer.stop();
@@ -149,4 +152,33 @@ public class Habitat extends JPanel {
     public boolean getShowTime() {return _showTime;}
     public int getWoodenAliveTime() {return _woodenAliveTime;}
     public int getCapitalAliveTime() {return _capitalAliveTime;}
+    public void changeWoodenAIStatus() {
+        if (_woodenAI.getRunStatus()) {
+            _woodenAI.pauseAI();
+        } else {
+            _woodenAI.resumeAI();
+        }
+    }
+    public void changeCapitalAIStatus() {
+        if (_capitalAI.getRunStatus()) {
+            _capitalAI.pauseAI();
+        } else {
+            _capitalAI.resumeAI();
+        }
+    }
+    public void setAIPriority(int priority) {
+        if (priority == 0) {
+            _capitalAI.setPriority(Thread.MAX_PRIORITY);
+            _woodenAI.setPriority(Thread.MIN_PRIORITY);
+            Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
+        } else if (priority == 1) {
+            _capitalAI.setPriority(Thread.MIN_PRIORITY);
+            _woodenAI.setPriority(Thread.MAX_PRIORITY);
+            Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
+        } else if (priority == 2) {
+            _capitalAI.setPriority(Thread.MIN_PRIORITY);
+            _woodenAI.setPriority(Thread.MIN_PRIORITY);
+            Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
+        }
+    }
 }
