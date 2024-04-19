@@ -1,9 +1,7 @@
 package frames;
 
 import Events.KeyEventListener;
-import Generation.Habitat;
-import Generation.House;
-import Generation.HouseCollections;
+import Generation.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +16,9 @@ public class GenerationFrame {
     private static final JRadioButton _hideTimeButton = new JRadioButton("Hide simulation time");
     private static final JButton _showAliveButton = new JButton("Show alive components");
     private static final JFrame _frame = new JFrame("Generation");
+    private static boolean _showInfo;
     public static void init(boolean showInfo, boolean errFlag) {
+        _showInfo = showInfo;
         _frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         _addMenu();
 
@@ -86,7 +86,7 @@ public class GenerationFrame {
 
         _showTimeButton.doClick();
 
-        setUnfocusableAll();
+        _setUnfocusableAll();
         buttonPanel.setFocusable(false);
 
         _frame.getContentPane().add(_habitat, BorderLayout.CENTER);
@@ -154,6 +154,7 @@ public class GenerationFrame {
         mainMenu.add(stop);
         mainMenu.add(showSimTime);
         mainMenu.add(hideSimTime);
+        mainMenu.add(_getCmd());
 
         JMenu threadMenu = getThreadMenu();
 
@@ -184,13 +185,13 @@ public class GenerationFrame {
         threadMenu.add(capitalAIChanger);
         threadMenu.add(woodenAIChanger);
 
-        JMenu threadPriority = getThreadPriority();
+        JMenu threadPriority = _getThreadPriority();
         threadMenu.add(threadPriority);
 
         return threadMenu;
     }
 
-    private static JMenu getThreadPriority() {
+    private static JMenu _getThreadPriority() {
         JMenu threadPriority = new JMenu("Threads priority set");
         JMenuItem capitalThreadPriority = new JMenuItem("Set priority to capital");
         capitalThreadPriority.addActionListener(new ActionListener() {
@@ -219,11 +220,27 @@ public class GenerationFrame {
         return threadPriority;
     }
 
-    private static void setUnfocusableAll() {
+    private static void _setUnfocusableAll() {
         _startButton.setFocusable(false);
         _stopButton.setFocusable(false);
         _hideTimeButton.setFocusable(false);
         _showTimeButton.setFocusable(false);
         _showAliveButton.setFocusable(false);
     }
+
+    private static JMenuItem _getCmd() {
+        JMenuItem cmdCallButton = new JMenuItem("Open console");
+        Cmd cmd = new Cmd();
+        cmd.init(_frame);
+        cmdCallButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Cmd().showCmd();
+            }
+        });
+
+        return cmdCallButton;
+    }
+
+    public static boolean getShowInfoFlag() { return _showInfo; }
 }

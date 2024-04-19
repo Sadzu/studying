@@ -16,7 +16,7 @@ public class Capital extends House {
         int h = 1080;
         if (get_xCoordinate() < w/2 && get_yCoordinate() < h/2) { return; }
         if (!runStatus) { return; }
-        set_xCoordinate(get_xCoordinate() - BaseAI.getVelocity());
-        set_yCoordinate(get_yCoordinate() - BaseAI.getVelocity());
+        set_xCoordinate(get_xCoordinate() - 1);
+        set_yCoordinate(get_yCoordinate() - 1);
     }
 }

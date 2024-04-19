@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.Vector;
 
 public abstract class BaseAI extends Thread {
-    private static int _velocity = 2;
+    private static int _velocity = 50;
     private boolean _isRunning = true;
     protected Vector<House> houses;
     protected JPanel graphicsPanel;
@@ -35,8 +35,9 @@ public abstract class BaseAI extends Thread {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                }
+                } else { process(); }
             }
+            process();
             graphicsPanel.repaint();
             try {
                 Thread.sleep(_velocity);

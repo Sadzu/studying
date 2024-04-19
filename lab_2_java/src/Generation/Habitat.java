@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 
 public class Habitat extends JPanel {
     private static Habitat _instance;
@@ -15,7 +16,7 @@ public class Habitat extends JPanel {
     private final double _woodenChance;
     private final int _woodenTime;
     private int _woodenCount;
-    private final double _capitalChance;
+    private double _capitalChance;
     private final int _capitalTime;
     private int _capitalCount;
 
@@ -64,8 +65,6 @@ public class Habitat extends JPanel {
                 }
 
                 _collections.checkAlive(_simulationTime);
-                _woodenAI.process();
-                _capitalAI.process();
 
                 repaint();
             }
@@ -181,4 +180,12 @@ public class Habitat extends JPanel {
             Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
         }
     }
+
+    public Vector<House> getHouses() { return _collections.getHouses(); }
+
+    public void setCapitalChance(double chance) { _capitalChance = chance; }
+    public double getCapitalChance() { return _capitalChance; }
+    public double getWoodenChance() { return _woodenChance; }
+    public int getWoodenTime() { return _woodenTime; }
+    public int getCapitalTime() { return _capitalTime; }
 }
