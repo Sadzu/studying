@@ -1,9 +1,15 @@
 package Generation;
 
+import Serializing.Serializer;
+import com.sun.source.tree.Tree;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.TreeMap;
 import java.util.Vector;
 
 public class Habitat extends JPanel {
@@ -13,19 +19,19 @@ public class Habitat extends JPanel {
     private int _simulationTime;
     private boolean _showTime;
 
-    private final double _woodenChance;
-    private final int _woodenTime;
+    private double _woodenChance;
+    private int _woodenTime;
     private int _woodenCount;
     private double _capitalChance;
-    private final int _capitalTime;
+    private int _capitalTime;
     private int _capitalCount;
 
-    private final int _woodenAliveTime;
-    private final int _capitalAliveTime;
+    private int _woodenAliveTime;
+    private int _capitalAliveTime;
 
     private final HouseCollections _collections = HouseCollections.getInstance();
-    private WoodenAI _woodenAI = new WoodenAI(_collections.getHouses(), this);
-    private CapitalAI _capitalAI = new CapitalAI(_collections.getHouses(), this);
+    private final WoodenAI _woodenAI = new WoodenAI(_collections.getHouses(), this);
+    private final CapitalAI _capitalAI = new CapitalAI(_collections.getHouses(), this);
 
     public static Habitat getInstance(int woodenTime, double woodenChance, int capitalTime, double capitalChance, int woodenAliveTime, int capitalAliveTime) {
         if (_instance == null) {
@@ -111,7 +117,11 @@ public class Habitat extends JPanel {
         super.paintComponent(g);
 
         for (House house : _collections.getHouses()) {
-            g.drawImage(house.getImage(), house.get_xCoordinate(), house.get_yCoordinate(), 100, 100, null);
+            if (house instanceof Wooden) {
+                g.drawImage(new ImageIcon("src/Images/images.jpeg").getImage(), house.get_xCoordinate(), house.get_yCoordinate(), 100, 100, null);
+            } else {
+                g.drawImage(new ImageIcon("src/Images/capital.png").getImage(), house.get_xCoordinate(), house.get_yCoordinate(), 100, 100, null);
+            }
             g.setColor(Color.BLACK);
             g.drawString(house.getName(), house.get_xCoordinate(), house.get_yCoordinate());
         }
@@ -139,9 +149,17 @@ public class Habitat extends JPanel {
     }
     public void Pause() {
         _timer.stop();
+        _woodenAI.pauseAI();
+        _capitalAI.pauseAI();
     }
     public void Resume() {
         _timer.start();
+        synchronized (_woodenAI) {
+            _woodenAI.resumeAI();
+        }
+        synchronized (_capitalAI) {
+            _capitalAI.resumeAI();
+        }
     }
 
     public int getWoodenCount() {return _woodenCount;}
@@ -182,10 +200,44 @@ public class Habitat extends JPanel {
     }
 
     public Vector<House> getHouses() { return _collections.getHouses(); }
+    public HashSet<Integer> getRandomIDs() { return _collections.getRandomIDs(); }
+    public TreeMap<Integer, House> getBornTimeIDs() { return _collections.getBornTimeIds(); }
 
     public void setCapitalChance(double chance) { _capitalChance = chance; }
     public double getCapitalChance() { return _capitalChance; }
     public double getWoodenChance() { return _woodenChance; }
     public int getWoodenTime() { return _woodenTime; }
     public int getCapitalTime() { return _capitalTime; }
+    public void setWoodenTime(int woodenTime) { _woodenTime = woodenTime; }
+    public void setShowTime(boolean showTime) { _showTime = showTime; }
+    public void setWoodenChance(double chance) { _woodenChance = chance; }
+    public void setWoodenAliveTime(int time) { _woodenAliveTime = time; }
+    public void setCapitalTime(int capitalTime) { _capitalTime = capitalTime; }
+    public void setCapitalAliveTime(int time) { _capitalAliveTime = time; }
+
+    public void serialize() {
+        Serializer serializer = new Serializer();
+        Serializer.serialize(serializer);
+    }
+
+    public void deserialize() {
+        try {
+            Serializer serializer = (Serializer) Serializer.deserialize();
+            Pause();
+            _woodenCount = serializer.getWoodenCount();
+            _capitalCount = serializer.getCapitalCount();
+            _collections.setBornTimeIDs(serializer.getBornTimeIDs());
+            _collections.setHouses(serializer.getHouses());
+            _collections.setRandomIdentificators(serializer.getIDs());
+            _simulationTime = serializer.getCurrentSimulationTime();
+            _simulationTime = serializer.getCurrentSimulationTime();
+            repaint();
+            _woodenAI.updateHouses(getHouses());
+            _capitalAI.updateHouses(getHouses());
+            Resume();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
 }

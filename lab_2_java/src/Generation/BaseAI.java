@@ -52,4 +52,6 @@ public abstract class BaseAI extends Thread {
         _velocity = speed;
     }
     public static int getVelocity() { return _velocity; }
+
+    public void updateHouses(Vector<House> houseVector) { houses = houseVector; }
 }

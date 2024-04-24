@@ -1,14 +1,16 @@
 package Generation;
 
+import com.sun.source.tree.Tree;
+
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.TreeMap;
 import java.util.Vector;
 
 public class HouseCollections {
-    private final Vector<House> _houses;
-    private final HashSet<Integer> _randomIdentificators;
-    private final TreeMap<Integer, House> _bornTimeIdentificators;
+    private Vector<House> _houses;
+    private HashSet<Integer> _randomIdentificators;
+    private TreeMap<Integer, House> _bornTimeIdentificators;
 
     private static HouseCollections _instance;
 
@@ -50,6 +52,7 @@ public class HouseCollections {
     }
 
     public Vector<House> getHouses() {return _houses;}
+    public HashSet<Integer> getRandomIDs() { return _randomIdentificators; }
 
     public void clearCollections() {
         _houses.clear();
@@ -58,4 +61,8 @@ public class HouseCollections {
     }
 
     public TreeMap<Integer, House> getBornTimeIds() {return _bornTimeIdentificators;}
+
+    public void setHouses(Vector<House> houses) { _houses = houses; }
+    public void setRandomIdentificators(HashSet<Integer> randIDs) { _randomIdentificators = randIDs; }
+    public void setBornTimeIDs(TreeMap<Integer, House> bornTimeIDs) { _bornTimeIdentificators = bornTimeIDs; }
 }

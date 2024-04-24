@@ -1,5 +1,6 @@
 package frames;
 
+import Config.ConfigMgr;
 import Generation.Habitat;
 
 import javax.swing.*;
@@ -77,12 +78,23 @@ public class Menu extends JPanel {
 
                 frame.setVisible(false);
 
-                GenerationFrame.init(showInfo_flag, errFlag[0]);
+                GenerationFrame.init(showInfo_flag, errFlag[0], false);
+            }
+        });
+
+        JButton loadButton = new JButton("Load config");
+        loadButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GenerationFrame.init(false, false, true);
+                Habitat habitat =  Habitat.getInstance(0, 0, 0, 0, 0, 0);
+                frame.setVisible(false);
             }
         });
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(startButton);
+        buttonPanel.add(loadButton);
 
         Container container = frame.getContentPane();
         container.setLayout(new GridLayout(4, 2, 10, 10));

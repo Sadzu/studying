@@ -1,5 +1,6 @@
 package frames;
 
+import Config.ConfigMgr;
 import Events.KeyEventListener;
 import Generation.*;
 
@@ -9,16 +10,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class GenerationFrame {
-    private static final Habitat _habitat = Habitat.getInstance();
+    private static Habitat _habitat = Habitat.getInstance();
     private static final JButton _startButton = new JButton("Start");
     private static final JButton _stopButton = new JButton("Stop");
     private static final JRadioButton _showTimeButton = new JRadioButton("Show simulation time");
     private static final JRadioButton _hideTimeButton = new JRadioButton("Hide simulation time");
     private static final JButton _showAliveButton = new JButton("Show alive components");
+    private static final JButton _saveButton = _getSaveButton();
     private static final JFrame _frame = new JFrame("Generation");
     private static boolean _showInfo;
-    public static void init(boolean showInfo, boolean errFlag) {
-        _showInfo = showInfo;
+    public static void init(boolean showInfo, boolean errFlag, boolean isLoaded) {
+        if (isLoaded) {
+            ConfigMgr.loadConfig();
+            _habitat = Habitat.getInstance();
+        } else { _showInfo = showInfo; }
+
         _frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         _addMenu();
 
@@ -79,6 +85,7 @@ public class GenerationFrame {
         buttonPanel.add(_showTimeButton);
         buttonPanel.add(_hideTimeButton);
         buttonPanel.add(_showAliveButton);
+        buttonPanel.add(_saveButton);
 
         _frame.addKeyListener(new KeyEventListener(_startButton, _stopButton, _showTimeButton, _hideTimeButton));
         _frame.setFocusable(true);
@@ -155,6 +162,8 @@ public class GenerationFrame {
         mainMenu.add(showSimTime);
         mainMenu.add(hideSimTime);
         mainMenu.add(_getCmd());
+        mainMenu.add(_getSerializeButton());
+        mainMenu.add(_getDeserializeButton());
 
         JMenu threadMenu = getThreadMenu();
 
@@ -243,4 +252,43 @@ public class GenerationFrame {
     }
 
     public static boolean getShowInfoFlag() { return _showInfo; }
+    public static void setShowInfoFlag(boolean flag) { _showInfo = flag; }
+
+    private static JButton _getSaveButton() {
+        JButton saveButton = new JButton("Save config and exit");
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ConfigMgr.saveConfig();
+                _habitat.Stop();
+                System.exit(0);
+            }
+        });
+
+        return saveButton;
+    }
+
+    private static JMenuItem _getSerializeButton() {
+        JMenuItem serializeButton = new JMenuItem("Save objects");
+        serializeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                _habitat.serialize();
+            }
+        });
+
+        return serializeButton;
+    }
+
+    private static JMenuItem _getDeserializeButton() {
+        JMenuItem deserializeButton = new JMenuItem("Load objects");
+        deserializeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                _habitat.deserialize();
+            }
+        });
+
+        return deserializeButton;
+    }
 }
