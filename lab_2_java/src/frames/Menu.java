@@ -7,6 +7,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class Menu extends JPanel {
     public static void init() {
@@ -87,7 +91,7 @@ public class Menu extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 GenerationFrame.init(false, false, true);
-                Habitat habitat =  Habitat.getInstance(0, 0, 0, 0, 0, 0);
+                Habitat habitat = Habitat.getInstance(0, 0, 0, 0, 0, 0);
                 frame.setVisible(false);
             }
         });
@@ -115,6 +119,7 @@ public class Menu extends JPanel {
         container.add(capitalAliveTimeField);
 
         container.add(showInfo);
+        container.add(getConfigDescription());
 
         frame.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
         //frame.add(container);
@@ -138,5 +143,30 @@ public class Menu extends JPanel {
             case "100%" -> 1;
             case null, default -> 0.3;
         };
+    }
+
+    private static TextArea getConfigDescription() {
+        TextArea description = new TextArea("", 1, 1, TextArea.SCROLLBARS_NONE);
+        try {
+            description.append("Current saved config:\n");
+            BufferedReader reader = new BufferedReader(new FileReader("src/Config/config.cfg"));
+            description.append("Show info flag: " + reader.readLine() + '\n');
+            description.append("Show time flag: " + reader.readLine() + '\n');
+            description.append("Wooden generation time: " + reader.readLine() + '\n');
+            description.append("Wooden generation chance: " + reader.readLine() + '\n');
+            description.append("Wooden lifetime: " + reader.readLine() + '\n');
+            description.append("Capital generation time: " + reader.readLine() + '\n');
+            description.append("Capital generation chance: " + reader.readLine() + '\n');
+            description.append("Capital lifetime: " + reader.readLine() + '\n');
+        } catch (FileNotFoundException err) {
+            err.printStackTrace();
+            description.append("No config saved or no such file/directory");
+        } catch (IOException err) {
+            err.printStackTrace();
+            description.append("No config saved or no such file/directory");
+        }
+        description.setEditable(false);
+
+        return description;
     }
 }

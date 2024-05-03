@@ -83,22 +83,29 @@ public class Cmd {
     }
 
     public int read() {
-        if (_eol) {
-            _cbuf = null;
-            _off++;
-            _eol = false;
-            return -1;
-        }
-        if (_cbuf == null) {
-            _cbuf = _pane.getText().getBytes();
-            _len = _doc.getLength();
-            return _cbuf[_off++];
-        } else if (_off < _len) {
-            return _cbuf[_off++];
-        } else {
+        try {
+            if (_eol) {
+                _cbuf = null;
+                _off = 0;
+                _eol = false;
+                return -1;
+            }
+            if (_cbuf == null) {
+                _cbuf = _pane.getText().getBytes();
+                _len = _doc.getLength();
+                return _cbuf[_off++];
+            } else if (_off < _len) {
+                return _cbuf[_off++];
+            } else {
+                _eol = true;
+                _off = 0;
+                return (int) '\n';
+            }
+        } catch (ArrayIndexOutOfBoundsException err) {
+            _off = _cbuf.length;
             _eol = true;
-            _off = 0;
-            return (int)'\n';
+            _checkCommand("err");
+            return -1;
         }
     }
 
@@ -108,8 +115,9 @@ public class Cmd {
             case "change_capital_chance":
                 try {
                     _habitat.setCapitalChance(Double.parseDouble(splitCommand[1]));
+                    System.out.println("Changed");
                 } catch (NumberFormatException err) {
-                    System.out.println("Invalid number. Chance should be positive double (0.3 for example)\n");
+                    System.out.println("Invalid number. Chance should be positive double (0.3 for example)");
                 }
                 break;
             case "get_capital_chance":
@@ -125,8 +133,20 @@ public class Cmd {
                     err.printStackTrace();
                 }
                 break;
+            case "err":
+                try {
+                    _isClearing = true;
+                    _doc.remove(0, _doc.getLength());
+                    _isClearing = false;
+                    _off = 0;
+                    System.out.println("Error in cmd, console cleared");
+                } catch (BadLocationException err) {
+                    err.printStackTrace();
+                }
+                break;
             default:
-                System.out.println("Invalid command\n");
+                System.out.println("Invalid command");
+                break;
         }
     }
 

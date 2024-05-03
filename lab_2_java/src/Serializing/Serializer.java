@@ -4,14 +4,13 @@ import Generation.Habitat;
 import Generation.House;
 
 import java.io.*;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.TreeMap;
 import java.util.Vector;
 
 public class Serializer implements Serializable {
     @Serial
-    private static final long serialVersionUID = 6473L;
+    private static final long serialVersionUID = 473L;
 
     private static final String $directory = "src/Serializing/status.bin";
 

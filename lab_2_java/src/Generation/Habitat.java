@@ -230,7 +230,6 @@ public class Habitat extends JPanel {
             _collections.setHouses(serializer.getHouses());
             _collections.setRandomIdentificators(serializer.getIDs());
             _simulationTime = serializer.getCurrentSimulationTime();
-            _simulationTime = serializer.getCurrentSimulationTime();
             repaint();
             _woodenAI.updateHouses(getHouses());
             _capitalAI.updateHouses(getHouses());
