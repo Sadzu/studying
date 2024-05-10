@@ -3,6 +3,7 @@ package Net;
 import Generation.Habitat;
 import Generation.House;
 import com.sun.source.tree.Tree;
+import frames.ConnectionsList;
 
 import java.io.*;
 import java.net.Socket;
@@ -49,7 +50,10 @@ public class ClientNet {
         try {
             _out.write("Hello new socket" + '\n');
             _out.flush();
-        } catch (IOException ignore) {}
+            _out.write("show_connections" + '\n');
+            _out.flush();
+        } catch (IOException ignore) {
+        }
     }
 
     private void downService() {
@@ -59,8 +63,10 @@ public class ClientNet {
                 _in.close();
                 _out.close();
                 _consoleIn.close();
+                Server.removeSocket(_socket);
             }
-        } catch (IOException ignore) {}
+        } catch (IOException ignore) {
+        }
     }
 
     private class ReadMessage extends Thread {
@@ -73,15 +79,17 @@ public class ClientNet {
                     if (message.equals("stop")) {
                         ClientNet.this.downService();
                         break;
-                    }
-                    if (message.split(" ")[0].equals("srz")) {
+                    } else if (message.split(" ")[0].equals("srz")) {
                         System.out.println("Gotcha");
                         onCopyingTo(message);
-                    }
-                    if (message.equals("copying_from")) {
+                    } else if (message.equals("copying_to")) {
+                        System.out.println("Request added");
+                        onCopyingTo(_in.readLine());
+                    } else if (message.equals("copying_from")) {
                         onCopyingFrom();
-                    }
-                    System.out.println(message);
+                    } else if (message.split(" ")[0].equals("info")) {
+                        ConnectionsList.updateConnectionsMessage(message);
+                    } else { System.out.println(message); }
                 }
             } catch (IOException e) {
                 ClientNet.this.downService();
@@ -95,7 +103,8 @@ public class ClientNet {
             try {
                 _out.write("srz " + houses + '\n');
                 _out.flush();
-            } catch (IOException ignore) {}
+            } catch (IOException ignore) {
+            }
         }
 
         private void onCopyingTo(String houses) {
@@ -127,5 +136,22 @@ public class ClientNet {
         }
     }
 
-    public Socket getSocket() { return _socket; }
+    public Socket getSocket() {
+        return _socket;
+    }
+
+    public void send(String message) {
+        try {
+            _out.write(message + '\n');
+            _out.flush();
+        } catch (IOException ignore) {}
+    }
+
+//    public String getMessage() {
+//        try {
+//            return _in.readLine();
+//        } catch (IOException e) {
+//            return null;
+//        }
+//    }
 }

@@ -9,7 +9,7 @@ import java.util.LinkedList;
 
 public class Server {
     public static final int PORT = 6666; // const port
-    private static LinkedList<ServerNet> _serverList = new LinkedList<ServerNet>(); //list of all nets
+    public static LinkedList<ServerNet> _serverList = new LinkedList<ServerNet>(); //list of all nets
     private static int _IDs = 0;
 
     private static final BufferedReader _consoleIn = new BufferedReader(new InputStreamReader(System.in));
@@ -20,6 +20,7 @@ public class Server {
         new ConsoleReader().start();
         try {
             while (true) {
+                checkSockets();
                 Socket socket = server.accept();
                 try {
                     _serverList.add(new ServerNet(socket));
@@ -33,9 +34,18 @@ public class Server {
         }
     }
 
-    public static void removeSocket(ServerNet socket) {
+    private static void checkSockets() {
         for (ServerNet vr : _serverList) {
-            if (vr.equals(socket)) {
+            if (!vr.getSocket().isConnected() || vr.isInterrupted()) {
+                vr.interrupt();
+                _serverList.remove(vr);
+            }
+        }
+    }
+
+    public static void removeSocket(Socket socket) {
+        for (ServerNet vr : _serverList) {
+            if (vr.getSocket().equals(socket)) {
                 vr.interrupt();
                 _serverList.remove(vr);
             }
@@ -43,6 +53,14 @@ public class Server {
     }
 
     public static LinkedList<ServerNet> getServerList() { return _serverList; }
+    public static String getStringServerList() {
+        String res = "";
+        for (int i = 0; i < _serverList.size(); i++) {
+            res += _serverList.get(i).toString() + '\n';
+        }
+        return res;
+    }
+
     public static int getSocketID(ServerNet socket) {
         return _serverList.indexOf(socket);
     }

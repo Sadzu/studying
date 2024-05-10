@@ -3,13 +3,11 @@ package frames;
 import Config.ConfigMgr;
 import Events.KeyEventListener;
 import Generation.*;
-import Net.Client;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 public class GenerationFrame {
     private static Habitat _habitat = Habitat.getInstance();
@@ -76,7 +74,7 @@ public class GenerationFrame {
                 AliveComponents.init(HouseCollections.getInstance().getBornTimeIds(), _frame);
             }
         });
-
+//      <----Add to button panel (down)---->
         ButtonGroup simTimeGroup = new ButtonGroup();
         simTimeGroup.add(_showTimeButton);
         simTimeGroup.add(_hideTimeButton);
@@ -88,6 +86,7 @@ public class GenerationFrame {
         buttonPanel.add(_hideTimeButton);
         buttonPanel.add(_showAliveButton);
         buttonPanel.add(_saveButton);
+        buttonPanel.add(getConnectionsListButton());
 
         _frame.addKeyListener(new KeyEventListener(_startButton, _stopButton, _showTimeButton, _hideTimeButton));
         _frame.setFocusable(true);
@@ -292,5 +291,17 @@ public class GenerationFrame {
         });
 
         return deserializeButton;
+    }
+
+    private static JButton getConnectionsListButton() {
+        JButton connectionsListButton = new JButton("Show connections list");
+        connectionsListButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ConnectionsList.show();
+            }
+        });
+
+        return connectionsListButton;
     }
 }
