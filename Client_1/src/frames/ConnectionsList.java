@@ -40,6 +40,9 @@ public class ConnectionsList {
     }
 
     private static void updateConnectionsList() {
+        if (!_frame.isShowing()) {
+            _updater.stop();
+        }
         _connectionsList.replaceRange("", 0, _connectionsList.getText().length());
         _connectionsList.setEditable(true);
         getServerList();

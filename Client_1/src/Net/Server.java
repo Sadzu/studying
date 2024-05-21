@@ -65,7 +65,14 @@ public class Server {
         return _serverList.indexOf(socket);
     }
     public static int getNewID() { return _IDs; }
-    public static ServerNet getSocketByID(int id) { return _serverList.get(id); }
+    public static ServerNet getSocketByID(int id) {
+        for (ServerNet vr : _serverList) {
+            if (vr.getSocketID() == id) {
+                return _serverList.get(_serverList.indexOf(vr));
+            }
+        }
+        return _serverList.getLast();
+    }
 
     private static class ConsoleReader extends Thread {
         @Override

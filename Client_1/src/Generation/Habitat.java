@@ -307,4 +307,45 @@ public class Habitat extends JPanel {
         _capitalAI.updateHouses(_collections.getHouses());
         repaint();
     }
+
+    public void addOnlyFromString(String str, String type) {
+        TreeMap<Integer, House> newList = new TreeMap<Integer, House>();
+        String[] splited = str.split(" ");
+        if (type.equals("Capital")) {
+            for (int i = 1; i < splited.length; i++) {
+                if (splited[i].equals("Capital")) {
+                    Capital newObject = new Capital(Integer.parseInt(splited[i + 2]), Integer.parseInt(splited[i + 3]));
+                    newList.put(Integer.parseInt(splited[i+1]), newObject);
+                } else if (splited[i].equals("st")) {
+                    _simulationTime = Integer.parseInt(splited[i + 1]);
+                }
+            }
+        } else if (type.equals("Wooden")) {
+            for (int i = 1; i < splited.length; i++) {
+                if (splited[i].equals("Wooden")) {
+                    Wooden newObject = new Wooden(Integer.parseInt(splited[i + 2]), Integer.parseInt(splited[i + 3]));
+                    newList.put(Integer.parseInt(splited[i+1]), newObject);
+                } else if (splited[i].equals("st")) {
+                    _simulationTime = Integer.parseInt(splited[i + 1]);
+                }
+            }
+        }
+        _collections.setBornTimeIDs(newList);
+        Vector<House> newVec = new Vector<House>(_collections.getBornTimeIds().values());
+        _collections.setHouses(newVec);
+        _woodenAI.updateHouses(_collections.getHouses());
+        _capitalAI.updateHouses(_collections.getHouses());
+        repaint();
+    }
+
+    public String onlyToString(String type) {
+        String res = "srz ";
+        for (Map.Entry<Integer, House> housePair : _collections.getBornTimeIds().entrySet()) {
+            House val = housePair.getValue();
+            if (val.getName().equals(type))
+                res += val.getName() + " " + housePair.getKey() + " " + val.get_xCoordinate() + " " + val.get_yCoordinate() + " ";
+        }
+        res += "st " + _simulationTime;
+        return res;
+    }
 }

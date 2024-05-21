@@ -3,11 +3,13 @@ package frames;
 import Config.ConfigMgr;
 import Events.KeyEventListener;
 import Generation.*;
+import SQL.DatabaseMgr;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class GenerationFrame {
     private static Habitat _habitat = Habitat.getInstance();
@@ -165,6 +167,11 @@ public class GenerationFrame {
         mainMenu.add(_getCmd());
         mainMenu.add(_getSerializeButton());
         mainMenu.add(_getDeserializeButton());
+        mainMenu.add(getLoadObjectsButton());
+        mainMenu.add(getSaveObjectsButton());
+        mainMenu.add(getSaveOnlyCapital());
+        mainMenu.add(getSaveOnlyWooden());
+        mainMenu.add(getClearDBButton());
 
         JMenu threadMenu = getThreadMenu();
 
@@ -303,5 +310,84 @@ public class GenerationFrame {
         });
 
         return connectionsListButton;
+    }
+
+    private static JMenuItem getSaveObjectsButton() {
+        JMenuItem saveObjectsButton = new JMenuItem("Save all objects to database");
+        saveObjectsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String serialized_str = "srz " + Habitat.getInstance().bornTimeIDsToString();
+                try {
+                    DatabaseMgr.getInstance().putItemToDatabase(serialized_str);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+
+        return saveObjectsButton;
+    }
+
+    private static JMenuItem getLoadObjectsButton() {
+        JMenuItem loadObjectsButton = new JMenuItem("Load objects from database");
+        loadObjectsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                DBLoad.init();
+            }
+        });
+
+        return loadObjectsButton;
+    }
+
+    private static JMenuItem getSaveOnlyWooden() {
+        JMenuItem saveOnlyWoodenButton = new JMenuItem("Save only wooden to db");
+        saveOnlyWoodenButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String srz = Habitat.getInstance().onlyToString("Wooden");
+                try {
+                    DatabaseMgr.getInstance().putItemToDatabase(srz);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+
+        return saveOnlyWoodenButton;
+    }
+
+    private static JMenuItem getSaveOnlyCapital() {
+        JMenuItem saveOnlyCapitalButton = new JMenuItem("Save only capital to db");
+        saveOnlyCapitalButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String srz = Habitat.getInstance().onlyToString("Capital");
+                try {
+                    DatabaseMgr.getInstance().putItemToDatabase(srz);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+
+        return saveOnlyCapitalButton;
+    }
+
+    private static JMenuItem getClearDBButton() {
+        JMenuItem clearDBButton = new JMenuItem("Clear db");
+        clearDBButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    DatabaseMgr.getInstance().clearTable();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+
+        return clearDBButton;
     }
 }
